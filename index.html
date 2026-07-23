@@ -2739,8 +2739,26 @@ function showProgram(name) {
   // Trigger ITSM initialization on first open
   if (name === 'itsm' && !window._itsmReady) {
     window._itsmReady = true;
+    allRows = accountsData;
     if (typeof itsm_populateFilters === 'function') itsm_populateFilters();
     if (typeof itsm_renderTable === 'function') itsm_renderTable(accountsData);
+    document.querySelectorAll('.tab-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { showTab(btn.dataset.tab); });
+    });
+    document.querySelectorAll('th[data-col]').forEach(function(th) {
+      th.addEventListener('click', function() {
+        var key = th.dataset.col;
+        if (sortKey === key) sortAsc = !sortAsc;
+        else { sortKey = key; sortAsc = true; }
+        document.querySelectorAll('th[data-col]').forEach(function(t) {
+          t.classList.remove('sorted');
+          t.querySelector('.sort-arrow').textContent = '↕';
+        });
+        th.classList.add('sorted');
+        th.querySelector('.sort-arrow').textContent = sortAsc ? '↑' : '↓';
+        itsm_applyFilters();
+      });
+    });
     ['search-input','ae-filter','sector-filter','industry-filter','segment-filter'].forEach(function(id) {
       var el = document.getElementById(id);
       if (el) {
@@ -2810,9 +2828,7 @@ const accountsData = [{"ae": "Aaron Marszal", "account": "GE Healthcare Equipmen
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => showTab(btn.dataset.tab));
-  });
+
 
   // ── Target List ──────────────────────────────────────────────────
   let allRows = [];
@@ -2900,20 +2916,9 @@ const accountsData = [{"ae": "Aaron Marszal", "account": "GE Healthcare Equipmen
   }
 
   // Sort on column header click
-  document.querySelectorAll('th[data-col]').forEach(th => {
-    th.addEventListener('click', () => {
-      const key = th.dataset.col;
-      if (sortKey === key) sortAsc = !sortAsc;
-      else { sortKey = key; sortAsc = true; }
-      document.querySelectorAll('th[data-col]').forEach(t => { t.classList.remove('sorted'); t.querySelector('.sort-arrow').textContent = '↕'; });
-      th.classList.add('sorted');
-      th.querySelector('.sort-arrow').textContent = sortAsc ? '↑' : '↓';
-      itsm_applyFilters();
-    });
-  });
 
-  // Filter listeners and init are deferred to showProgram('itsm')
-  // (elements are hidden/null on page load — wired up in _itsmReady block)
+
+
 
 
 // ─── BIG MIDDLE REDESIGN ─────────────────────────────────────────
