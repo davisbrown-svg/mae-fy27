@@ -2741,6 +2741,13 @@ function showProgram(name) {
     window._itsmReady = true;
     if (typeof itsm_populateFilters === 'function') itsm_populateFilters();
     if (typeof itsm_renderTable === 'function') itsm_renderTable(accountsData);
+    ['search-input','ae-filter','sector-filter','industry-filter','segment-filter'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input',  itsm_applyFilters);
+        el.addEventListener('change', itsm_applyFilters);
+      }
+    });
   }
   if (name === 'bigmiddle' && !window._bmReady) {
     window._bmReady = true;
@@ -2905,16 +2912,8 @@ const accountsData = [{"ae": "Aaron Marszal", "account": "GE Healthcare Equipmen
     });
   });
 
-  ['search-input','ae-filter','sector-filter','industry-filter','segment-filter'].forEach(id => {
-    const el = document.getElementById(id);
-    el.addEventListener('input',  applyFilters);
-    el.addEventListener('change', applyFilters);
-  });
-
-  // Init — data baked in from CSV export
-  allRows = accountsData;
-  itsm_populateFilters();
-  itsm_renderTable(allRows);
+  // Filter listeners and init are deferred to showProgram('itsm')
+  // (elements are hidden/null on page load — wired up in _itsmReady block)
 
 
 // ─── BIG MIDDLE REDESIGN ─────────────────────────────────────────
