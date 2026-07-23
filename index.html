@@ -178,19 +178,27 @@ button.cta-btn {
       letter-spacing: 0.02em;
     }
 
-    /* Astro character */
-    .header-astro {
+    /* Mascot characters */
+    .header-mascot {
       flex-shrink: 0;
-      width: 180px;
+      width: 130px;
       align-self: flex-end;
-      position: relative;
-      bottom: 0;
     }
-    .header-astro img {
-      width: 180px;
+    .header-mascot img {
+      width: 130px;
       display: block;
-      animation: float 4s ease-in-out infinite;
-      filter: drop-shadow(0 16px 24px rgba(0,0,0,0.25));
+      filter: drop-shadow(0 12px 20px rgba(0,0,0,0.28));
+    }
+    .mascot-astro img  { animation: bounce 1.8s ease-in-out infinite; }
+    .mascot-codey img  { animation: bounce 1.8s ease-in-out infinite 0.4s; }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-18px); }
+    }
+
+    @media (max-width: 768px) {
+      .header-mascot { display: none; }
     }
 
     /* ── STATS BAR ── */
@@ -385,14 +393,8 @@ button.cta-btn {
     }
     .codey-wrap img {
       width: 120px;
-      animation: float 5s ease-in-out infinite;
+      animation: bounce 1.8s ease-in-out infinite 0.4s;
       filter: drop-shadow(0 8px 16px rgba(0,39,117,0.15));
-    }
-
-    /* ── FLOAT ANIMATION ── */
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-12px); }
     }
 
     /* ── FOOTER ── */
@@ -1689,14 +1691,19 @@ table tbody td {
   <!-- HEADER -->
   <header>
     <div class="header-inner">
-      <div class="header-content">
+      <div class="header-mascot mascot-astro">
+        <img src="https://developer.salesforce.com/resources2/bootcamp-2022/images/astro.png"
+             alt=""
+             onerror="this.style.display='none'" />
+      </div>
+      <div class="header-content" style="text-align:center">
         <div class="header-eyebrow">Flynn's Patch · AMER Enterprise</div>
         <h1>MAE FY27 Sales Programs</h1>
         <p class="subtitle">Flynn's Patch · AMER Enterprise · Manufacturing · Automotive · Utilities &amp; Energy</p>
       </div>
-      <div class="header-astro">
-        <img src="https://developer.salesforce.com/resources2/bootcamp-2022/images/astro.png"
-             alt="Astro"
+      <div class="header-mascot mascot-codey">
+        <img src="https://developer.salesforce.com/resources2/bootcamp-2022/images/codey.png"
+             alt=""
              onerror="this.style.display='none'" />
       </div>
     </div>
